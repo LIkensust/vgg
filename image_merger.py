@@ -49,7 +49,7 @@ class ImageMerger:
         y = np.array([self._samples[i][1] for i in range(sampleSize)])
 
         logger.debug("SAMPLES X SAPHE : [{}]".format(x.shape))
-        logger.debug("SAMPLES X SAPHE : [{}]".format(y.shape))
+        logger.debug("SAMPLES Y SAPHE : [{}]".format(y.shape))
 
         self._model = tf.keras.Sequential([
             # tf.keras.layers.Flatten(input_shape=(1, 144)),
