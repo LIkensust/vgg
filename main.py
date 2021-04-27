@@ -3,6 +3,7 @@ import logging
 import cv2
 from openimg import OpenImage
 import image_merger
+import image_merger_8
 import numpy as np
 
 logging.basicConfig(level=logging.DEBUG,
@@ -55,9 +56,16 @@ def test1(path, imgPath):
         showImage(imghstack)
         #showImage(imgHH)
         #warpImage(imgH, imgHH, True)
-        
+
+def test2(path):
+    mg = image_merger_8.ImageMerger("module/vgg16_weights.npz", path, load=False)
+    mg.Train('./images/',200,800,10)
+
 if __name__ == "__main__":
-    path = "module/train_mini"
+    OpenImage('./images/1.jpeg')
+    OpenImage('./images/2.jpeg')
+    OpenImage('./images/3.jpeg')
+    path = "module/train_huge"
     logger.debug("OPENCV VERSION [{}]".format(cv2.__version__))
-    #test(path,"./images/sanxia.jpeg")
-    test1(path,"./images/sanxia.jpeg")
+    test2(path)
+

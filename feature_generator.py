@@ -45,8 +45,8 @@ class FeatureGenerator:
         ret = np.zeros((14*14,14*14))
         for i in range(14*14):
             for j in range(14*14):
-                tmp = (self.Distance(f1[0][int(i / 14)][int(j % 14)], f2[0][int(i / 14)][int(j % 14)]) + \
-                            self.Distance(f1[1][int(i / 14)][int(j % 14)], f2[1][int(i / 14)][int(j % 14)]))
+                tmp = (self.Distance(f1[0][int(i / 14)][int(i % 14)], f2[0][int(j / 14)][int(j % 14)]) + \
+                            self.Distance(f1[1][int(i / 14)][int(i % 14)], f2[1][int(j / 14)][int(j % 14)]))
                 #print(tmp,(0.5 - abs(1.0/(1 + np.exp(tmp)) - 0.5))*2)
                 ret[i][j] = (0.5 - abs(1.0/(1 + np.exp(tmp)) - 0.5))*2
                 #ret[i][j] = tmp

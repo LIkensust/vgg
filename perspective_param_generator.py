@@ -133,8 +133,6 @@ def GenerateRandomPerspectiveTransform(ps, length, rate):
     return old_points, new_points, H, HL, HV
 
 
-
-
 def testCalculatePerspectiveTransform():
     ps = [[0.0,0.0], [1.0,0.0], [0.1,3.0], [1.5,2.5]]
     ps_1 = []
@@ -151,10 +149,14 @@ def testCalculatePerspectiveTransform():
     for p in ps_2:
         ps2.append([p[0] / p[2], p[1] / p[2]])
     H,HL = CalculatePerspectiveTransform(ps,ps2)
-    print(H, HL)
+    print(H)
+    print(HL)
+    HL = np.append(HL,1)
+    HL.resize((3,3))
+    print(HL)
 
 def testGenerateRandomPerspectiveTransform():
-    img = OpenImage('images/square.jpeg', False)
+    img = OpenImage('images/1.jpeg', False)
     h,w,_ = img.shape
 
     size = 224
@@ -191,8 +193,7 @@ def testGenerateRandomPerspectiveTransform():
     cv2.imshow("warp", sw)
     cv2.waitKey()
 
-
 if __name__ == "__main__":
-    for i in range(10):
-        testGenerateRandomPerspectiveTransform()
+    testGenerateRandomPerspectiveTransform()
+    testCalculatePerspectiveTransform()
 
