@@ -1,6 +1,7 @@
 import feature_generator
 import logging
 import cv2
+from openimg import OpenImage
 import image_merger
 import numpy as np
 
@@ -9,19 +10,12 @@ logging.basicConfig(level=logging.DEBUG,
 
 logger = logging.getLogger('main_log')
 
-def OpenImage(path):
-    img = cv2.imread('images/apple.jpg')
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    logger.debug("IMG : shape [{}]".format(img.shape))
-    img = cv2.resize(img,(224,224))
-    return img
-
-def test(path):
+def test(path, imgPath):
     #fg = feature_generator.FeatureGenerator("module/vgg16_weights.npz")
     logger.debug("create feature generator success")
-    img = OpenImage("images/apple.jpg")
+    img = OpenImage(imgPath)
     mg = image_merger.ImageMerger("module/vgg16_weights.npz", path, load=False)
-    mg.Train(img,200,400)
+    mg.Train(img,20,100,5)
     #mg.Predict(img,img)
 
 def showImage(img):
@@ -37,10 +31,10 @@ def warpImage(img1,img2,show=False):
         showImage(img)
     return img
 
-def test1(path):
+def test1(path, imgPath):
     mg = image_merger.ImageMerger("module/vgg16_weights.npz", path, load=True)
     h = w = 224
-    img = OpenImage("images/apple.jpg")
+    img = OpenImage(imgPath)
     for i in range(100):
         H, sita = mg.RandHSmall(w, h, 0.3)
         imgH = cv2.warpPerspective(img, H, dsize=(w, h))
@@ -61,10 +55,9 @@ def test1(path):
         showImage(imghstack)
         #showImage(imgHH)
         #warpImage(imgH, imgHH, True)
-
-
+        
 if __name__ == "__main__":
-    path = "module/train_1_200_400_1_03"
+    path = "module/train_mini"
     logger.debug("OPENCV VERSION [{}]".format(cv2.__version__))
-    #test(path)
-    test1(path)
+    #test(path,"./images/sanxia.jpeg")
+    test1(path,"./images/sanxia.jpeg")
