@@ -4,6 +4,7 @@ import tensorflow.compat.v1 as tf
 import logging
 import numpy as np
 import matplotlib.pyplot as plt
+from hilbert_index import HILBERT_INDEX_14M14
 
 tf.disable_eager_execution()
 tf.get_logger().setLevel('ERROR')
@@ -37,28 +38,26 @@ class FeatureGenerator:
     def Distance(self, v1, v2):
         return np.linalg.norm(v1-v2)
 
+    '''
     def MakeDiffFeature(self, f1,f2):
-        #f1 = self.MakeFeature(img1)
-        #f2 = self.MakeFeature(img2)
-        #logger.debug("INPUT SHAPE : [{}] MEAN : [{}] MAX [{}] MIN [{}]".format(f1[0].shape, np.mean(f1[0]), np.max(f1[0]), np.min(f1[0])))
-        x,y,z = f1[0].shape
         ret = np.zeros((14*14,14*14))
         for i in range(14*14):
             for j in range(14*14):
                 tmp = (self.Distance(f1[0][int(i / 14)][int(i % 14)], f2[0][int(j / 14)][int(j % 14)]) + \
                             self.Distance(f1[1][int(i / 14)][int(i % 14)], f2[1][int(j / 14)][int(j % 14)]))
-                #print(tmp,(0.5 - abs(1.0/(1 + np.exp(tmp)) - 0.5))*2)
                 ret[i][j] = (0.5 - abs(1.0/(1 + np.exp(tmp)) - 0.5))*2
-                #ret[i][j] = tmp
         ret = np.resize(ret,(14*14*14*14))
-        # logger.debug("OUTPUT SHAPE [{}] MEAN [{}] MAX [{}] MIN [{}]".format(ret.shape, np.mean(ret), np.max(ret), np.min(ret)))
-        # exit()
-        # plt.hist(ret, bins=30)
-        # plt.show()
-        # logger.debug("OUTPUT SHAPE : [{}] MEAN : [{}]".format(ret.shape,np.mean(ret)))
-        # for i in range(1000):
-        #    print(ret[i])
-        # exit()
+        return ret
+    '''
+
+    def MakeDiffFeature(self, f1,f2):
+        ret = np.zeros((16 * 16, 16 * 16))
+        for i in range(14 * 14):
+            for j in range(14 * 14):
+                tmp = (self.Distance(f1[0][int(i / 14)][int(i % 14)], f2[0][int(j / 14)][int(j % 14)]) + \
+                       self.Distance(f1[1][int(i / 14)][int(i % 14)], f2[1][int(j / 14)][int(j % 14)]))
+                ret[i][HILBERT_INDEX_14M14[j]] = (0.5 - abs(1.0 / (1 + np.exp(tmp)) - 0.5)) * 2
+        ret = np.resize(ret, (16 * 16 * 16 * 16))
         return ret
 
 

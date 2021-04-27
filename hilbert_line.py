@@ -16,5 +16,8 @@ def point_to_hilbert(x, y, order=16):
     return position
 
 if __name__ == "__main__":
-    p = point_to_hilbert(1,0,3)
-    print(p)
+    index = []
+    for i in range(14):
+        for j in range(14):
+            index.append(point_to_hilbert(i,j,4))
+    print(index)
